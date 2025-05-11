@@ -43,7 +43,7 @@ jobs:
             gh run upload-artifact --name $artifactName $_.FullName
           }
         env:
-          GH_TOKEN: ${{ github.token }}
+         GH_TOKEN: ${{ secrets.SECRET }}
 
 
   linux:
@@ -77,5 +77,5 @@ jobs:
             gh run upload-artifact --name "$name" "$f"
           done
         env:
-          GH_TOKEN: ${{ github.token }}
+         GH_TOKEN: ${{ secrets.SECRET }}
 
