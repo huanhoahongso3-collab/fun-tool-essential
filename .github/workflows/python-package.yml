@@ -28,11 +28,14 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Compile to executable (Windows)
+      - name: Compile all Python scripts
         run: |
-          pyinstaller --onefile banana.py
-          pyinstaller --onefile banana-video.py
-          pyinstaller --onefile thlinh.py
+          for %f in (*.py) do pyinstaller --onefile "%f"
+      - name: Upload Windows executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-executables
+          path: dist/*.exe
 
   linux:
     name: Linux
@@ -53,8 +56,12 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Compile to executable (Linux)
+      - name: Compile all Python scripts
         run: |
-          pyinstaller --onefile banana.py
-          pyinstaller --onefile banana-video.py
-          pyinstaller --onefile thlinh.py
+          for f in *.py; do pyinstaller --onefile "$f"; done
+
+      - name: Upload Linux executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-executables
+          path: dist/*
