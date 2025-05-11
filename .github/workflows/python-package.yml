@@ -28,16 +28,11 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Compile banana.py to executable (Windows)
+      - name: Compile to executable (Windows)
         run: |
           pyinstaller --onefile banana.py
           pyinstaller --onefile banana-video.py
           pyinstaller --onefile thlinh.py
-
-      - name: Collect compiled executables
-        run: |
-          mkdir dist
-          mv dist/* dist/windows/
 
   linux:
     name: Linux
@@ -58,13 +53,8 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Compile banana.py to executable (Linux)
+      - name: Compile to executable (Linux)
         run: |
           pyinstaller --onefile banana.py
           pyinstaller --onefile banana-video.py
           pyinstaller --onefile thlinh.py
-
-      - name: Collect compiled executables
-        run: |
-          mkdir dist
-          mv dist/* dist/linux/
