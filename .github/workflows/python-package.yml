@@ -29,8 +29,11 @@ jobs:
           pip install pyinstaller
 
       - name: Compile all Python scripts
+        shell: pwsh
         run: |
-          for %f in (*.py) do pyinstaller --onefile "%f"
+          Get-ChildItem -Filter *.py | ForEach-Object {
+            pyinstaller --onefile $_.Name
+          }
       - name: Upload Windows executables
         uses: actions/upload-artifact@v4
         with:
