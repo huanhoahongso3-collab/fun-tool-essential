@@ -32,7 +32,7 @@ jobs:
         run: |
           for %f in (*.py) do pyinstaller --onefile "%f"
       - name: Upload Windows executables
-        uses: actions/upload-artifact
+        uses: actions/upload-artifact@v4
         with:
           name: windows-executables
           path: dist/*.exe
@@ -61,7 +61,7 @@ jobs:
           for f in *.py; do pyinstaller --onefile "$f"; done
 
       - name: Upload Linux executables
-        uses: actions/upload-artifact
+        uses: actions/upload-artifact@v4
         with:
           name: linux-executables
           path: dist/*
