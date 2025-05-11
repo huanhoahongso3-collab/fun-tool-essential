@@ -27,24 +27,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
-
       - name: Compile all Python scripts
         shell: pwsh
         run: |
           Get-ChildItem -Filter *.py | ForEach-Object {
             pyinstaller --onefile $_.Name
           }
-      - name: Upload each Windows executable individually
-        shell: pwsh
-        run: |
-          Get-ChildItem -Path dist -Filter *.exe | ForEach-Object {
-            $artifactName = $_.BaseName + "-windows"
-            echo "Uploading $($_.FullName) as $artifactName"
-            gh run upload-artifact --name $artifactName $_.FullName
-          }
-        env:
-         GH_TOKEN: ${{ secrets.SECRET }}
-
+      - name: Upload Windows executables
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-executables
+          path: dist/*.exe
 
   linux:
     name: Linux
@@ -64,18 +57,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
-
       - name: Compile all Python scripts
         run: |
           for f in *.py; do pyinstaller --onefile "$f"; done
-
-      - name: Upload each Linux executable individually
-        run: |
-          for f in dist/*; do
-            name="$(basename "$f")-linux"
-            echo "Uploading $f as $name"
-            gh run upload-artifact --name "$name" "$f"
-          done
-        env:
-         GH_TOKEN: ${{ secrets.SECRET }}
-
+      - name: Upload Linux executables
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-executables
+          path: dist/*
