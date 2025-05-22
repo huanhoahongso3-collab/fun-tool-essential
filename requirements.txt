@@ -5,5 +5,3 @@ opencv-python
 numpy
 python-docx
 pydub
-audioop
-pyaudioop
