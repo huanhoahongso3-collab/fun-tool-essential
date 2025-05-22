@@ -45,8 +45,6 @@ def main():
         formatter_class=argparse.RawTextHelpFormatter
     )
 
-    !pip install pydub
-!apt update && apt install ffmpeg -y
     # Create mutually exclusive groups for file and folder operations
     group_file = parser.add_argument_group('Single File Conversion')
     group_folder = parser.add_argument_group('Folder Conversion')
