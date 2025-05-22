@@ -15,6 +15,7 @@ def convert_to_8d(input_path, output_path):
     try:
         # Load the audio file
         print(f"Loading audio from: {input_path}")
+        # AudioSegment.from_file automatically detects the format
         audio = AudioSegment.from_file(input_path)
 
         # Convert the audio to 8D
@@ -27,12 +28,13 @@ def convert_to_8d(input_path, output_path):
 
         # Save the 8D audio to a file
         print(f"Exporting 8D audio to: {output_path}")
+        # Exporting in mp3 format. Ensure FFmpeg is installed and accessible in your system's PATH.
         audio_8d.export(output_path, format="mp3")
         print("Conversion complete!")
     except FileNotFoundError:
         print(f"Error: Input file not found at '{input_path}'")
     except CouldntDecodeError:
-        print(f"Error: Could not decode audio file '{input_path}'. Make sure it's a valid audio format (e.g., MP3).")
+        print(f"Error: Could not decode audio file '{input_path}'. Make sure it's a valid audio format (e.g., MP3, WAV) and FFmpeg is correctly installed.")
     except Exception as e:
         print(f"An unexpected error occurred during conversion: {e}")
 
@@ -101,12 +103,16 @@ def main():
 
         print(f"Processing files in folder: {input_folder}")
         for filename in os.listdir(input_folder):
-            if filename.lower().endswith(('.mp3', '.wav', '.flac', '.ogg')): # Support common audio formats
+            # Process common audio formats. pydub relies on FFmpeg for decoding.
+            if filename.lower().endswith(('.mp3', '.wav', '.flac', '.ogg', '.aac', '.m4a')):
                 input_path = os.path.join(input_folder, filename)
                 # Construct output filename, preserving the original extension
                 name, ext = os.path.splitext(filename)
+                # Append '_8d' to the filename before the extension
                 output_path = os.path.join(output_folder, f"{name}_8d{ext}")
                 convert_to_8d(input_path, output_path)
+            else:
+                print(f"Skipping non-audio file: {filename}")
     else:
         # If no valid combination is provided, show help
         parser.print_help()
