@@ -1,7 +1,0 @@
-argparse
-pyperclip
-Pillow
-opencv-python
-numpy
-python-docx
-pydub
